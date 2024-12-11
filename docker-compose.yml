@@ -1,0 +1,30 @@
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+    expose:
+      - "8080:8080"
+    environment:
+      DISCOVERY_URL: "discovery-service"
+  
+  discovery-service:
+    build:
+      context: .
+      dockerfile: DiscoveryService/Dockerfile
+    environment:
+      DISCOVER_SERVICES: "dummy-worker1, dummy-worker2"
+      
+  dummy-worker1:
+    build:
+      context: .
+      dockerfile: DummyWorker/Dockerfile
+    deploy:
+      replicas: 2
+      
+  dummy-worker2:
+    build:
+      context: .
+      dockerfile: DummyWorker/Dockerfile
+    deploy:
+      replicas: 2

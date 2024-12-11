@@ -1,0 +1,6 @@
+@DiscoveryService_HostAddress = http://localhost:5118
+
+GET {{DiscoveryService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
