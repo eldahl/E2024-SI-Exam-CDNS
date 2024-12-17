@@ -3,10 +3,10 @@ services:
     build:
       context: .
       dockerfile: Gateway/Dockerfile
-    expose:
+    ports:
       - "8080:8080"
     environment:
-      DISCOVERY_URL: "discovery-service"
+      DISCOVERY_URL: "http://discovery-service:8080"
   
   discovery-service:
     build:

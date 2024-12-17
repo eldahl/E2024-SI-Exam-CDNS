@@ -5,6 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddSingleton<DiscoveryService.Services.DiscoveryService>();
+
+builder.Services.AddLogging(options =>
+{
+    options.AddConsole();
+});
 
 var app = builder.Build();
 
@@ -15,6 +21,5 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();

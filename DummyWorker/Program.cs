@@ -17,12 +17,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 // Set up routes discovery
 app.MapGet("/discovery/routes", (IEnumerable<EndpointDataSource> sources) =>
 {
-    return string.Join("\n", sources.SelectMany(source => source.Endpoints));
+    return string.Join(", ", sources.SelectMany(source => source.Endpoints));
 });
 
 // Dummy route that performs computation
