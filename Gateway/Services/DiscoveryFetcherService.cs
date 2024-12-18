@@ -16,14 +16,37 @@ public class DiscoveryFetcherService
         // Set base address in http client
         _client.BaseAddress = new Uri(envDiscoveryUrl);
     }
+
+    public async Task<List<string>?> GetDiscoveredServices()
+    {
+        // Get service names from Discovery service
+        var res = await _client.GetAsync("/Discovery/GetDiscoveredServices").Result.Content.ReadAsStringAsync();
+        //Console.WriteLine(res);
+        
+        // Deserialize to list of strings
+        var serviceNames = JsonSerializer.Deserialize<List<string>>(res) ?? null;
+        return serviceNames;
+    }
     
     public async Task<List<string>?> GetRoutesForServiceAsync(string serviceName)
     {
         // Get Routes for service
         var res = await _client.GetAsync("/Discovery/GetRoutesForService?serviceName=" + serviceName).Result.Content.ReadAsStringAsync();
+        //Console.WriteLine(res);
         // Convert to list of strings from json
         var routes = JsonSerializer.Deserialize<List<string>>(res) ?? null;
-        return routes ?? null;
+        
+        if (routes is null)
+            return null;
+    
+        List<String> routeStrings = new();
+        foreach (var route in routes) {
+            // Example of split:
+            // HTTP: GET /discovery/routes
+            //   0  | 1 |       2
+            routeStrings.Add(route.Split(" ")[2]);
+        }
+        return routeStrings;
     }
 
     public async Task<List<string>?> GetAddressesForServiceAsync(string serviceName)

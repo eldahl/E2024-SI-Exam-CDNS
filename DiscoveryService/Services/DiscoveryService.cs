@@ -25,7 +25,13 @@ public class DiscoveryService
     
     private string FormatServiceAddresses(string serviceName) => serviceName + "-addresses";
     private string FormatServiceRoutes(string serviceName) => serviceName + "-routes";
-    
+
+    // Gets service names provided as environment variable
+    public List<string> GetServiceNames()
+    {
+        return _serviceNames;
+    }
+
     // Gets endpoints for a service
     public List<string>? GetEndpoints(string serviceName)
     {

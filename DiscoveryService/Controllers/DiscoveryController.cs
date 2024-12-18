@@ -13,6 +13,13 @@ public class DiscoveryController(Services.DiscoveryService discover) : Controlle
         return Ok();
     }
 
+    [HttpGet("GetDiscoveredServices")]
+    public IActionResult GetDiscoveredServices()
+    {
+        var services = discover.GetServiceNames();
+        return Ok(services);
+    }
+
     [HttpGet("GetRoutesForService")]
     public IActionResult GetRoutesForService([FromQuery] string serviceName)
     {
