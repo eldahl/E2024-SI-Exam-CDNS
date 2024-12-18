@@ -1,3 +1,6 @@
+using System.Text.Json;
+using Microsoft.AspNetCore.Http.HttpResults;
+
 namespace Gateway.Services;
 
 public class DiscoveryFetcherService
@@ -14,21 +17,30 @@ public class DiscoveryFetcherService
         _client.BaseAddress = new Uri(envDiscoveryUrl);
     }
     
-    public List<string> GetRoutesForService(string serviceName)
+    public async Task<List<string>?> GetRoutesForServiceAsync(string serviceName)
     {
-        // TODO: Implement
-        return null!;
+        // Get Routes for service
+        var res = await _client.GetAsync("/Discovery/GetRoutesForService?serviceName=" + serviceName).Result.Content.ReadAsStringAsync();
+        // Convert to list of strings from json
+        var routes = JsonSerializer.Deserialize<List<string>>(res) ?? null;
+        return routes ?? null;
     }
 
-    public List<string> GetAddressesForService(string serviceName)
+    public async Task<List<string>?> GetAddressesForServiceAsync(string serviceName)
     {
-        // TODO: Implement
-        return null!;
+        // Get Routes for service
+        var res = await _client.GetAsync("/Discovery/GetAddressesForService?serviceName=" + serviceName).Result.Content.ReadAsStringAsync();
+        // Convert to list of strings from json
+        var addresses = JsonSerializer.Deserialize<List<string>>(res) ?? null;
+        return addresses ?? null;
     }
 
-    public string GetRandomAddressForService(string serviceName)
+    public async Task<string> GetRandomAddressForServiceAsync(string serviceName)
     {
-        // TODO: Implement
-        return serviceName;
+        // Get Routes for service
+        var res = await _client.GetAsync("/Discovery/GetRandomAddressForService?serviceName=" + serviceName).Result.Content.ReadAsStringAsync();
+        if (string.IsNullOrEmpty(res))
+            throw new ApplicationException("No address found for service: " + serviceName);
+        return res;
     }
 }

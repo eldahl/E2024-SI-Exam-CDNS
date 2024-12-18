@@ -14,6 +14,7 @@ services:
       dockerfile: DiscoveryService/Dockerfile
     environment:
       DISCOVER_SERVICES: "dummy-worker1, dummy-worker2"
+      PERSISTENCE_FILE_PATH: "discovery.data"
       
   dummy-worker1:
     build:

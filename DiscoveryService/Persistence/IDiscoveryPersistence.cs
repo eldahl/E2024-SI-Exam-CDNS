@@ -1,25 +1,25 @@
-namespace DiscoveryService;
+namespace DiscoveryService.Persistence;
 
-public interface IDiscoveryPersistence
+public interface IDiscoveryDictionaryPersistence<TKey, TValue> where TKey : notnull
 {
-    void SaveOne(KeyValuePair<string, string> endpoint);
-    void SaveMany(Dictionary<string, string> endpoints);
-    void OverwriteAll(Dictionary<string, string> endpoints);
-    Task SaveOneAsync(KeyValuePair<string, string> endpoint);
-    Task SaveManyAsync(Dictionary<string, string> endpoints);
-    Task OverwriteAllAsync(Dictionary<string, string> endpoints);
+    void SaveOne(KeyValuePair<TKey, TValue> kvp);
+    void SaveMany(Dictionary<TKey, TValue> dict);
+    void OverwriteAll(Dictionary<TKey, TValue> dict);
+    Task SaveOneAsync(KeyValuePair<TKey, TValue> kvp);
+    Task SaveManyAsync(Dictionary<TKey, TValue> dict);
+    Task OverwriteAllAsync(Dictionary<TKey, TValue> dict);
     
-    KeyValuePair<string, string>? GetOne(string endpointIdentifier);
-    Dictionary<string, string>? GetMany(List<string> endpointIdentifiers);
-    Dictionary<string, string>? GetAll();
-    Task<KeyValuePair<string, string>?> GetOneAsync(string endpointIdentifier);
-    Task<Dictionary<string, string>?> GetManyAsync(List<string> endpointIdentifiers);
-    Task<Dictionary<string, string>?> GetAllAsync();
+    KeyValuePair<TKey, TValue>? GetOne(TKey key);
+    Dictionary<TKey, TValue>? GetMany(List<TKey> keys);
+    Dictionary<TKey, TValue>? GetAll();
+    Task<KeyValuePair<TKey, TValue>?> GetOneAsync(TKey keys);
+    Task<Dictionary<TKey, TValue>?> GetManyAsync(List<TKey> keys);
+    Task<Dictionary<TKey, TValue>?> GetAllAsync();
     
-    void DeleteOne(string endpointIdentifier);
-    void DeleteMany(List<string> endpointIdentifiers);
+    void DeleteOne(TKey key);
+    void DeleteMany(List<TKey> keys);
     void DeleteAll();
-    Task DeleteOneAsync(string endpointIdentifier);
-    Task DeleteManyAsync(List<string> endpointIdentifiers);
+    Task DeleteOneAsync(TKey key);
+    Task DeleteManyAsync(List<TKey> keys);
     Task DeleteAllAsync();
 }

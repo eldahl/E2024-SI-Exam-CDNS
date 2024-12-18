@@ -13,21 +13,21 @@ public class DiscoveryController(Services.DiscoveryService discover) : Controlle
         return Ok();
     }
 
-    [HttpPost("GetRoutesForService")]
+    [HttpGet("GetRoutesForService")]
     public IActionResult GetRoutesForService([FromQuery] string serviceName)
     {
         var routes = discover.GetRoutes(serviceName);
         return routes is not null ? Ok(routes) : NotFound();
     }
     
-    [HttpPost("GetAddressesForService")]
+    [HttpGet("GetAddressesForService")]
     public IActionResult GetAddressesForService([FromQuery] string serviceName)
     {
         var endpoints = discover.GetEndpoints(serviceName);
         return endpoints is not null ? Ok(endpoints) : NotFound();
     }
 
-    [HttpPost("GetRandomAddressForService")]
+    [HttpGet("GetRandomAddressForService")]
     public IActionResult GetRandomAddressForService([FromQuery] string serviceName)
     {
         // Get endpoints

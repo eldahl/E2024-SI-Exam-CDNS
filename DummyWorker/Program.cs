@@ -1,5 +1,4 @@
 using System.Security.Cryptography;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +24,9 @@ app.MapGet("/discovery/routes", (IEnumerable<EndpointDataSource> sources) =>
 
 // Dummy route that performs computation
 app.MapGet("/RequestWork", async () => {
+        
+        Console.WriteLine("called RequestWork...");
+        
         // SHA512 instance
         SHA512 sha512 = SHA512.Create();
         sha512.Initialize();

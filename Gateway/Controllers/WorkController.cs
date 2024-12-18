@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Gateway.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +10,10 @@ public class WorkController(HttpClient client, DiscoveryFetcherService dfs) : Co
     [HttpGet("GetHashes")]
     public async Task<ActionResult> GetHashes()
     {
-        // TODO: Implement
-        // Get address from kv store
-        client.BaseAddress = new Uri(dfs.GetRandomAddressForService("dummy-worker"));
+        // Get address from discovery service
+        var address = await dfs.GetRandomAddressForServiceAsync("dummy-worker1");
+        address = "http://" + address + ":8080";
+        client.BaseAddress = new Uri(address);
         
         // Perform request on endpoint
         var res = await client.GetAsync("RequestWork").Result.Content.ReadAsStringAsync();

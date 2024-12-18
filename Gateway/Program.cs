@@ -8,8 +8,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddTransient<HttpClient>();
 builder.Services.AddSingleton<DiscoveryFetcherService>();
+
+// Logging to console for debugging
+builder.Services.AddLogging(options =>
+{
+    options.AddConsole();
+});
 
 var app = builder.Build();
 
